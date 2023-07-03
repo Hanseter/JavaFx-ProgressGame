@@ -7,7 +7,7 @@ import javafx.stage.Stage
 
 class ProgressBarGameTestApp : Application() {
     override fun start(stage: Stage) {
-        val game = ProgressBarGame(600.0, 100.0)
+        val game = ProgressBarGame(600.0, 40.0)
         stage.scene = Scene(StackPane(game.canvas))
         stage.show()
     }

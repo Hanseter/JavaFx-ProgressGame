@@ -15,7 +15,6 @@ class Player(
 
     private val floor = y
     private var speed = 0.0
-    private var velocity = 0.0
     val minX: Double
         get() = x
     val minY: Double
@@ -25,26 +24,19 @@ class Player(
     val maxY: Double
         get() = y + size
 
-    fun advance(secondFraction: Double) {
-        if (KeyCode.UP in keyState.heldKeys) {
-            if (velocity == 0.0) {
-                velocity = 1.0
-            }
-        }
-        jump(secondFraction)
+    init {
+        y = y / 2
     }
 
-    private fun jump(secondFraction: Double) {
-        velocity -= secondFraction / if (KeyCode.UP in keyState.heldKeys) 4 else 2
-        if (velocity <= 0) {
-            y = floor
-            speed = 0.0
-            velocity = 0.0
-            return
-        }
-        y = floor * (0.5 - Interpolator.EASE_BOTH.interpolate(0.0, 1.0, velocity)).absoluteValue * 2
+    fun advance(secondFraction: Double) {
+        fly(secondFraction)
+    }
 
-
+    private fun fly(secondFraction: Double) {
+        speed += if (KeyCode.UP in keyState.heldKeys) -secondFraction / 5
+        else secondFraction / 5
+        speed = speed.coerceIn(-0.15, 0.15)
+        y += speed
     }
 
     fun render(context: GraphicsContext) {
@@ -54,5 +46,12 @@ class Player(
 
     fun collidesWith(it: Obstacle): Boolean {
         return !(maxX < it.minX || it.maxX < minX || maxY < it.minY || it.maxY < minY)
+    }
+
+    fun collidesWithBorder() = y < 0.0 || y > floor
+
+    fun reset() {
+        y = floor / 2
+        speed = 0.0
     }
 }

@@ -1,6 +1,7 @@
 package com.github.hanseter.progress
 
 import javafx.scene.canvas.GraphicsContext
+import javafx.scene.input.KeyCode
 import java.util.LinkedList
 import kotlin.random.Random
 
@@ -8,7 +9,7 @@ class Map(
     private val width: Double,
     private val height: Double,
     private val context: GraphicsContext,
-    keyState: KeyState
+    private val keyState: KeyState
 ) {
 
     private val player = Player(
@@ -22,6 +23,10 @@ class Map(
     private var obstacles: MutableList<Obstacle> = LinkedList<Obstacle>()
 
     fun advance(secondFraction: Double) {
+        if (KeyCode.ESCAPE in keyState.heldKeys) {
+            reset()
+            player.reset()
+        }
         obstacles.forEach { it.advance(secondFraction) }
         player.advance(secondFraction)
         if (Random.nextDouble(5.0) < rng) {
@@ -29,8 +34,11 @@ class Map(
             obstacles.add(createObstacle())
         }
         rng += secondFraction
-        if (obstacles.any { player.collidesWith(it) }) {
+        if (obstacles.any { player.collidesWith(it) } || player.collidesWithBorder()) {
+            println("Resetting")
+            println(player.collidesWithBorder())
             reset()
+            player.reset()
         }
         while (obstacles.isNotEmpty() && obstacles.first().x < 0) {
             obstacles.removeFirst()
@@ -39,10 +47,10 @@ class Map(
 
     private fun createObstacle(): Obstacle {
         val y = when (Random.nextInt(2)) {
-            0 -> height *0.6
+            0 -> height * 0.6
             else -> 0.0
         }
-        return Obstacle(currentSpeed, width, y, width/100, height *0.4)
+        return Obstacle(currentSpeed, width, y, width / 100, height * 0.4)
     }
 
 
