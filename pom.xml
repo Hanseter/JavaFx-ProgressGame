@@ -4,12 +4,31 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>progress-game</artifactId>
     <groupId>com.github.hanseter</groupId>
+    <artifactId>progress-game</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>consoleApp</name>
+    <licenses>
+        <license>
+            <name>The MIT License (MIT)</name>
+            <url>https://mit-license.org/</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Hanseter</name>
+            <organizationUrl>https://github.com/Hanseter</organizationUrl>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git://github.com/Hanseter/JavaFx-ProgressGame.git</connection>
+        <developerConnection>scm:git:ssh://github.com:Hanseter/JavaFx-ProgressGame.git</developerConnection>
+        <url>https://github.com/Hanseter/JavaFx-ProgressGame/tree/main</url>
+    </scm>
+
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
